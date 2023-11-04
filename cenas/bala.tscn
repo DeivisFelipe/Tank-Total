@@ -1,0 +1,62 @@
+[gd_scene load_steps=10 format=3 uid="uid://vs347i36qf48"]
+
+[ext_resource type="Script" path="res://cenas/bala.gd" id="1_o8fu4"]
+[ext_resource type="Texture2D" uid="uid://by6drc43rg65n" path="res://sprites/bulletDark1_outline.png" id="2_r3nh6"]
+[ext_resource type="Texture2D" uid="uid://c3qdt3obmnlkt" path="res://sprites/smokeWhite1.png" id="3_mw13n"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_p1rfo"]
+radius = 1.97817
+height = 6.57947
+
+[sub_resource type="Gradient" id="Gradient_ieifm"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.129412)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_8sn5f"]
+gradient = SubResource("Gradient_ieifm")
+
+[sub_resource type="Curve" id="Curve_l3oyn"]
+_data = [Vector2(0, 0.0181818), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_p7btm"]
+curve = SubResource("Curve_l3oyn")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_flkdm"]
+lifetime_randomness = 0.1
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 0.0
+scale_max = 0.3
+scale_curve = SubResource("CurveTexture_p7btm")
+color_ramp = SubResource("GradientTexture1D_8sn5f")
+turbulence_enabled = true
+turbulence_noise_strength = 1.37
+
+[node name="bala" type="Area2D" groups=["balas"]]
+scale = Vector2(2.55387, 2.55387)
+script = ExtResource("1_o8fu4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_p1rfo")
+
+[node name="notifier" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(0.03125, -0.03125)
+rotation = 1.5708
+scale = Vector2(0.340625, 0.471875)
+
+[node name="BulletBlue2Outline" type="Sprite2D" parent="."]
+rotation = 1.5708
+scale = Vector2(0.805969, 0.664452)
+texture = ExtResource("2_r3nh6")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+position = Vector2(-3.99582, 0.201385)
+amount = 40
+process_material = SubResource("ParticleProcessMaterial_flkdm")
+texture = ExtResource("3_mw13n")
+lifetime = 0.2
+
+[connection signal="screen_exited" from="notifier" to="." method="_on_notifier_screen_exited"]

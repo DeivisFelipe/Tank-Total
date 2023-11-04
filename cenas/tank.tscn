@@ -1,0 +1,98 @@
+[gd_scene load_steps=11 format=3 uid="uid://dwb7bhs3kdw60"]
+
+[ext_resource type="Script" path="res://scripts/tank.gd" id="1_wi014"]
+[ext_resource type="Texture2D" uid="uid://d0bc4dxjvymm7" path="res://sprites/tankBody_dark.png" id="2_5mhcq"]
+[ext_resource type="Texture2D" uid="uid://ceokdy8p4g0lh" path="res://sprites/tankDark_barrel1_outline.png" id="3_cgadc"]
+[ext_resource type="Texture2D" uid="uid://cl3vt236kvful" path="res://sprites/shotLarge.png" id="4_b3mgl"]
+[ext_resource type="Texture2D" uid="uid://ctuh8bmy4lmtj" path="res://sprites/shotOrange.png" id="5_loeti"]
+[ext_resource type="Texture2D" uid="uid://bphlnjx72ionu" path="res://sprites/shotRed.png" id="6_w7k48"]
+[ext_resource type="AudioStream" uid="uid://cldeq2rb14hu8" path="res://samples/tank_cannon.wav" id="7_oj6lw"]
+
+[sub_resource type="Animation" id="Animation_6pjp8"]
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_vtix0"]
+resource_name = "fire"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../ShotLarge:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../ShotLarge:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Vector2(35.1544, 0.209253), Vector2(35.1544, 0.209253), Vector2(41.4319, 0.209253)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../ShotLarge:texture")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [ExtResource("4_b3mgl"), ExtResource("5_loeti"), ExtResource("6_w7k48")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_b45sd"]
+_data = {
+"RESET": SubResource("Animation_6pjp8"),
+"fire": SubResource("Animation_vtix0")
+}
+
+[node name="tank" type="CharacterBody2D"]
+scale = Vector2(2.38946, 2.38946)
+script = ExtResource("1_wi014")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+rotation = 1.5708
+polygon = PackedVector2Array(-19, -14, -19, 14, -13, 18, 13, 18, 19, 14, 19, -14, 13, -18, -13, -18)
+
+[node name="Sprite" type="Sprite2D" parent="."]
+rotation = 4.71239
+texture = ExtResource("2_5mhcq")
+
+[node name="cano" type="Node2D" parent="."]
+
+[node name="canoImagem" type="Sprite2D" parent="cano"]
+rotation = 1.5708
+texture = ExtResource("3_cgadc")
+offset = Vector2(0, -9)
+
+[node name="ShotLarge" type="Sprite2D" parent="cano"]
+visible = false
+z_index = 3
+position = Vector2(35.1544, 0.209253)
+rotation = 4.71239
+texture = ExtResource("4_b3mgl")
+
+[node name="disparador" type="Marker2D" parent="cano"]
+position = Vector2(27.521, -0.329914)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="cano"]
+root_node = NodePath("../disparador")
+speed_scale = 4.0
+libraries = {
+"": SubResource("AnimationLibrary_b45sd")
+}
+
+[node name="SomTiro" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_oj6lw")
+volume_db = -43.524

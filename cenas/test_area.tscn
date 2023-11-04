@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://do337637jgluo"]
+
+[ext_resource type="PackedScene" uid="uid://dwb7bhs3kdw60" path="res://cenas/tank.tscn" id="1_t7sxg"]
+
+[node name="Test_area" type="Node"]
+
+[node name="tank" parent="." instance=ExtResource("1_t7sxg")]
+position = Vector2(376, 286)
+rotation = -2.34753
+scale = Vector2(2.3748, 2.40007)
+corpo = 3
+
+[node name="tank2" parent="." instance=ExtResource("1_t7sxg")]
+position = Vector2(837, 407)
+rotation = -2.34753
+scale = Vector2(2.3748, 2.40007)
+corpo = 3
